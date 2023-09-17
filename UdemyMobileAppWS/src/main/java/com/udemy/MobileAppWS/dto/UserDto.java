@@ -20,7 +20,7 @@ public class UserDto implements Serializable {
     private String password;
     private String encryptedPassword;
     private String emailVerificationToken;
-    private boolean emailVerificationStatus;
+    private boolean emailVerificationStatus = false;
 
     public UserDto() {
     }
