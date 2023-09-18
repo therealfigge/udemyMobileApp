@@ -11,6 +11,7 @@ import com.udemy.MobileAppWS.services.UserService;
 import com.udemy.MobileAppWS.shared.Utils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,6 +20,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
     
     @Autowired
     Utils utils;
@@ -34,8 +38,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
         
-        // TODO - Remove the following two lines
-        userEntity.setEncryptedPassword("test");
+        userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         
         String publicUserId = utils.generateUserId(30);
         userEntity.setUserId(publicUserId);

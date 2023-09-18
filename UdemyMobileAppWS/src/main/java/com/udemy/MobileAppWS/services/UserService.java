@@ -5,11 +5,12 @@
 package com.udemy.MobileAppWS.services;
 
 import com.udemy.MobileAppWS.dto.UserDto;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  *
  * @author fredr
  */
-public interface UserService {
+public interface UserService extends UserDetailsService {
     UserDto createUser(UserDto user);
 }
