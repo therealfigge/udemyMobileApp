@@ -8,6 +8,7 @@ import com.udemy.MobileAppWS.dto.UserDto;
 import com.udemy.MobileAppWS.entity.UserEntity;
 import com.udemy.MobileAppWS.repositories.UserRepository;
 import com.udemy.MobileAppWS.services.UserService;
+import com.udemy.MobileAppWS.shared.Utils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,16 +21,24 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     
     @Autowired
+    Utils utils;
+    
+    @Autowired
     UserRepository userRepository;
 
     @Override
     public UserDto createUser(UserDto user) {
+        
+        if(userRepository.findUserByEmail(user.getEmail()) != null) throw new RuntimeException("Email already exists!");
+        
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
         
         // TODO - Remove the following two lines
         userEntity.setEncryptedPassword("test");
-        userEntity.setUserId("testUserId");
+        
+        String publicUserId = utils.generateUserId(30);
+        userEntity.setUserId(publicUserId);
         
         UserEntity storedValue = userRepository.save(userEntity);
         
