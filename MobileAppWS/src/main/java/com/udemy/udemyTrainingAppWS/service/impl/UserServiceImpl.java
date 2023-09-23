@@ -25,6 +25,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto user) {
         
+        UserEntity storedEntityDetails = userRepository.findByEmail(user.getEmail());
+        
+        if(storedEntityDetails != null) throw new RuntimeException("Email stored in record!");
+        
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
         
