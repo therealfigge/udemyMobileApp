@@ -7,7 +7,6 @@ package com.udemy.udemyTrainingAppWS.service.impl;
 import com.udemy.udemyTrainingAppWS.io.entity.UserEntity;
 import com.udemy.udemyTrainingAppWS.repository.UserRepository;
 import com.udemy.udemyTrainingAppWS.service.UserService;
-import com.udemy.udemyTrainingAppWS.shared.Utils;
 import com.udemy.udemyTrainingAppWS.shared.dto.UserDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,6 @@ public class UserServiceImpl implements UserService {
     
     @Autowired
     UserRepository userRepository;
-    
-    @Autowired
-    Utils utils;
 
     @Override
     public UserDto createUser(UserDto user) {
@@ -36,9 +32,8 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
         
-        String publicUserId = utils.generateUserId(30);
-        userEntity.setUserId(publicUserId);
         userEntity.setEncryptedPassword("test");
+        userEntity.setUserId("testUserId");
         
         UserEntity storedUserDetails = userRepository.save(userEntity);
         
