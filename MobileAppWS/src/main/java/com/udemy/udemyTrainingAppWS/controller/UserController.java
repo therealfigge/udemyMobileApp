@@ -31,7 +31,7 @@ public class UserController {
     
     @GetMapping
     public String getUser() {
-        return null;
+        return "Called get user";
     }
     
     @PostMapping
