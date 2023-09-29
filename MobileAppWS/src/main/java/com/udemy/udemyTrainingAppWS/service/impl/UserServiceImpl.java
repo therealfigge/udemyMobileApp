@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
         
         UserEntity storedEntityDetails = userRepository.findByEmail(user.getEmail());
         
-        if(storedEntityDetails != null) throw new RuntimeException("Email stored in record!");
+        if(storedEntityDetails != null) throw new RuntimeException("Email already stored in record!");
         
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
