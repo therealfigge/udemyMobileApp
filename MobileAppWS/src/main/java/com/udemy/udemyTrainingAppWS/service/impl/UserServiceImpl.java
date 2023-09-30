@@ -9,8 +9,12 @@ import com.udemy.udemyTrainingAppWS.repository.UserRepository;
 import com.udemy.udemyTrainingAppWS.service.UserService;
 import com.udemy.udemyTrainingAppWS.shared.Utils;
 import com.udemy.udemyTrainingAppWS.shared.dto.UserDto;
+import java.util.ArrayList;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,4 +56,12 @@ public class UserServiceImpl implements UserService {
         return returnValue;
     }
     
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserEntity userEntity = userRepository.findByEmail(username);
+        
+        if(userEntity == null) throw new UsernameNotFoundException(username);
+        
+        return new User(username, userEntity.getEncryptedPassword(), new ArrayList<>());
+    }
 }
