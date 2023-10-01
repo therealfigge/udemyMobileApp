@@ -41,6 +41,10 @@ public class SecurityConfig {
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
         
+        // Customize login url path
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager);
+        authenticationFilter.setFilterProcessesUrl("/users/login");
+        
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll();
             auth.anyRequest().authenticated();
@@ -48,7 +52,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authenticationManager(authenticationManager)
-                .addFilter(new AuthenticationFilter(authenticationManager));
+                .addFilter(authenticationFilter);
         return http.build();
     }
     
