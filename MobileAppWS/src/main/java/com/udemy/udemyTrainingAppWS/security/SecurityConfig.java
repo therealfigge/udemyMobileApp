@@ -47,6 +47,7 @@ public class SecurityConfig {
         })
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
+                .authenticationManager(authenticationManager)
                 .addFilter(new AuthenticationFilter(authenticationManager));
         return http.build();
     }

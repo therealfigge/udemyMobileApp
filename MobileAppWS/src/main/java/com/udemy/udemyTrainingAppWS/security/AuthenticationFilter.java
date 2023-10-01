@@ -5,6 +5,9 @@
 package com.udemy.udemyTrainingAppWS.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.udemy.udemyTrainingAppWS.SpringApplicationContext;
+import com.udemy.udemyTrainingAppWS.service.UserService;
+import com.udemy.udemyTrainingAppWS.shared.dto.UserDto;
 import com.udemy.udemyTrainingAppWS.ui.model.request.UserLoginRequestModel;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
@@ -62,6 +65,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .setExpiration(Date.from(now.plusMillis(SecurityConstants.EXPIRATION_TIME)))
                 .setIssuedAt(Date.from(now)).signWith(secretKey, SignatureAlgorithm.HS512).compact();
         
+        UserService userService = (UserService)SpringApplicationContext.getBean("userServiceImpl");
+        UserDto userDto = userService.getUser(username);
+        
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+        res.addHeader("UserId", userDto.getUserId());
     }
 }
