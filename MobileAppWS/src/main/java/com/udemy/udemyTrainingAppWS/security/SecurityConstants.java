@@ -4,6 +4,9 @@
  */
 package com.udemy.udemyTrainingAppWS.security;
 
+import com.udemy.udemyTrainingAppWS.SpringApplicationContext;
+import org.springframework.core.env.Environment;
+
 /**
  *
  * @author fredr
@@ -15,4 +18,10 @@ public class SecurityConstants {
     public static final String HEADER_STRING = "Authorization";
     public static final String SIGN_UP_URL = "/users";
     public static final String TOKEN_SECRET = "OIUTEHJADJJkmadsflkö099435kla8u9uu723rkjjafadsoiuewlkrkjlkadiou340u89oiq4tjkl989q34rklkjauduewr52q3429iwer532r3sdefaasdf";
+    
+    public static String getTokenSecret() {
+        Environment environment = (Environment) SpringApplicationContext.getBean("environment");
+        
+        return environment.getProperty("tokenSecret");
+    }
 }
