@@ -31,11 +31,7 @@ public class UserController {
     @Autowired
     UserService userService;
     
-    @GetMapping(path = "/{userid}",
-        produces = {
-                MediaType.APPLICATION_XML_VALUE,
-                MediaType.APPLICATION_JSON_VALUE
-        })
+    @GetMapping(path = "/{userid}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public UserRest getUser(@PathVariable String userid) {
         UserRest returnValue = new UserRest();
         
@@ -45,13 +41,8 @@ public class UserController {
         return returnValue;
     }
     
-    @PostMapping(consumes = {
-            MediaType.APPLICATION_XML_VALUE,
-            MediaType.APPLICATION_JSON_VALUE
-    }, produces = {
-            MediaType.APPLICATION_XML_VALUE,
-            MediaType.APPLICATION_JSON_VALUE
-    })
+    @PostMapping(consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) {
         
         UserRest returnValue = new UserRest();
@@ -65,13 +56,8 @@ public class UserController {
         return returnValue;
     }
     
-    @PutMapping(consumes = {
-            MediaType.APPLICATION_XML_VALUE,
-            MediaType.APPLICATION_JSON_VALUE
-    }, produces = {
-            MediaType.APPLICATION_XML_VALUE,
-            MediaType.APPLICATION_JSON_VALUE
-    })
+    @PutMapping(consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public String updateUser() {
         return "Called update user";
     }
