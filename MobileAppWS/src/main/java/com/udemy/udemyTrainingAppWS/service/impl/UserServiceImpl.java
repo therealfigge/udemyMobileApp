@@ -4,12 +4,15 @@
  */
 package com.udemy.udemyTrainingAppWS.service.impl;
 
+import com.udemy.udemyTrainingAppWS.exceptions.UserServiceException;
 import com.udemy.udemyTrainingAppWS.io.entity.UserEntity;
 import com.udemy.udemyTrainingAppWS.repository.UserRepository;
 import com.udemy.udemyTrainingAppWS.service.UserService;
 import com.udemy.udemyTrainingAppWS.shared.Utils;
 import com.udemy.udemyTrainingAppWS.shared.dto.UserDto;
 import java.util.ArrayList;
+
+import com.udemy.udemyTrainingAppWS.ui.model.response.ErrorMessages;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -55,7 +58,24 @@ public class UserServiceImpl implements UserService {
         
         return returnValue;
     }
-    
+
+    @Override
+    public UserDto updateUser(String userId, UserDto user) {
+        UserDto returnValue = new UserDto();
+        UserEntity userEntity = userRepository.findByUserId(userId);
+
+        if(userEntity == null)
+            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+
+        userEntity.setFirstName(user.getFirstName());
+        userEntity.setLastName(user.getLastName());
+
+        UserEntity updateUser = userRepository.save(userEntity);
+        BeanUtils.copyProperties(updateUser, returnValue);
+
+        return returnValue;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByEmail(username);
@@ -87,4 +107,24 @@ public class UserServiceImpl implements UserService {
         
         return returnValue;
     }
+
+    @Override
+    public void deleteUser(String userId) {
+        UserEntity userEntity = userRepository.findByUserId(userId);
+
+        if (userEntity == null)
+            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+
+        userRepository.delete(userEntity);
+    }
 }
+
+
+
+
+
+
+
+
+
+
