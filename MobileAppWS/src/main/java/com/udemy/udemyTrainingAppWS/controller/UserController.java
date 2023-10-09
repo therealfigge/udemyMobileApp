@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public List<UserRest> getUsers(@RequestParam(value = "page", defaultValue = "1") int page,
+    public List<UserRest> getUsers(@RequestParam(value = "page", defaultValue = "0") int page,
                                    @RequestParam(value = "limit", defaultValue = "10") int limit) {
         List<UserRest> returnValue = new ArrayList<>();
 
