@@ -7,6 +7,8 @@ package com.udemy.udemyTrainingAppWS.service;
 import com.udemy.udemyTrainingAppWS.shared.dto.UserDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
+
 /**
  *
  * @author fredr
@@ -16,5 +18,6 @@ public interface UserService extends UserDetailsService {
     UserDto updateUser(String userId, UserDto user);
     UserDto getUser(String email);
     UserDto getUserByUserId(String userId);
+    List<UserDto> getUsers(int page, int limit);
     void deleteUser(String userId);
 }
